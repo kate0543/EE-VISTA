@@ -26,12 +26,17 @@ def create_variable_length_data(n_inst):
     return data
 
 def build_base_lstm_model(n_timestep):   
+    # wrap encoderdecoder together
     t1 = time()
     model = Sequential()
+
+    # encoder
     model.add(LSTM(FIXED_LENGTH_REPRESENTATION_SIZE, activation='relu', input_shape=(n_timestep,1)))
     model.add(RepeatVector(n_timestep))
+    # decoder
     model.add(LSTM(FIXED_LENGTH_REPRESENTATION_SIZE, activation='relu', return_sequences=True))
     model.add(TimeDistributed(Dense(1)))
+
     model.compile(optimizer='adam', loss='mse')
     t2 = time()
     print(t2-t1)
@@ -109,6 +114,7 @@ class VariableLengthAutoencoderLSTM:
 def main():
     n_inst = 5
     var_len_seq = create_variable_length_data(n_inst)
+    print("Encode into fixed length representation before training!")
     pprint(var_len_seq)
     
     var_len_autoencoder_lstm_model = VariableLengthAutoencoderLSTM()
