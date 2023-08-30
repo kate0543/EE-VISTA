@@ -22,6 +22,7 @@ def create_variable_length_data(n_inst):
     for inst_idx in range(n_inst):
         n_timestep = np.random.randint(1, high=10)
         seq = np.random.rand(n_timestep).tolist()
+        print(len(seq))
         data.append(seq)
     return data
 
