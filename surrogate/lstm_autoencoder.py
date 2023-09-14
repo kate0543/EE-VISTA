@@ -1,9 +1,6 @@
-import numpy as np
-from numpy import array
-from pprint import pprint
+import numpy as np 
 import copy
-import random
-from time import time
+import random 
 
 from keras.models import Model
 from keras.models import Sequential
@@ -30,8 +27,7 @@ FIXED_LENGTH_REPRESENTATION_SIZE = 10
 #     return data
 
 def build_base_lstm_model(n_timestep):   
-    # wrap encoderdecoder together
-    # t1 = time()
+    # wrap encoderdecoder together 
     model = Sequential()
 
     # encoder
@@ -41,9 +37,7 @@ def build_base_lstm_model(n_timestep):
     model.add(LSTM(FIXED_LENGTH_REPRESENTATION_SIZE, activation='relu', return_sequences=True))
     model.add(TimeDistributed(Dense(1)))
 
-    model.compile(optimizer='adam', loss='mse')
-    # t2 = time()
-    # print(t2-t1)
+    model.compile(optimizer='adam', loss='mse') 
     return model
 
 class VariableLengthAutoencoderLSTM:
@@ -70,30 +64,19 @@ class VariableLengthAutoencoderLSTM:
                     curr_weights = model.get_weights()            
 
                 else:
-                    model = build_base_lstm_model(n_timestep)
-                    # t1 = time()
+                    model = build_base_lstm_model(n_timestep) 
                     # Get weights from current model trained in previous instance. 
                     # This helps with ensuring that our model can handle variable-length inputs
-                    model.set_weights(curr_weights) 
-                    # t2 = time()
-                    # print("ABC")
-                    # print(t2-t1)                    
-                    model.fit(seq, seq, epochs=n_epoch,verbose=0)                    
-                    # t1 = time()
+                    model.set_weights(curr_weights)   
+                    model.fit(seq, seq, epochs=n_epoch,verbose=0) 
                     # Save the current weights
-                    curr_weights = model.get_weights()     
-                    # t2 = time()
-                    # print("DEF")
-                    # print(t2-t1)
+                    curr_weights = model.get_weights()      
             
             
         self.model = model
     
-    def encode(self, var_len_seq):
-        # print("Encode into fixed length representation after training!")
-        # print(var_len_seq)
-        fixed_length_outputs  = []
-        # set_trace()
+    def encode(self, var_len_seq): 
+        fixed_length_outputs  = [] 
         for seq in var_len_seq:
             n_timestep = len(seq)
             seq = np.array(seq)
