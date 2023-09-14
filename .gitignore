@@ -1,7 +1,7 @@
 .DS_Store
 .idea
 *__pycache__*
+data_path.py 
 result/*
-data_path.py
-vlpso_result/*
 datasets/*
+datasets.zip
